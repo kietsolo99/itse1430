@@ -28,7 +28,7 @@ namespace Budget
 
         static decimal currency;
         static string name = "";
-        static int accountNumber;
+        static string accountNumber;
         static decimal balance;
 
         static decimal amount;
@@ -41,7 +41,7 @@ namespace Budget
             name = ReadString(true);
 
             Console.WriteLine("AccountNumber: ");
-            accountNumber = ReadInt32(0);
+            accountNumber = ReadString(true);
 
             Console.WriteLine("StartingBalance: ");
             balance = ReadDecimal(0);
@@ -130,9 +130,9 @@ namespace Budget
             //Console.WriteLine("-----------------");
             Console.WriteLine("".PadLeft(60, '-'));
             //var classicIndicator = isClassic ? "Yes" : "No";
-            var message = $"{name}\t\t{accountNumber}\t\t{balance}";
+            var message = $"{name}\t\t{accountNumber}\t\t{balance.ToString("C")}";
             Console.WriteLine(message);
-            Console.WriteLine( balance.ToString("C"));
+            //Console.WriteLine( balance.ToString("C"));
             //Console.WriteLine(message);
             //if (!String.IsNullOrEmpty(description))
             //    Console.WriteLine(description);
