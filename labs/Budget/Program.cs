@@ -27,6 +27,10 @@ namespace Budget
                     
                     case 'C': CheckIncome(); break;
 
+                    case 'E': ExpenseInfo(); break;
+
+                    case 'G': GetExpenseInfo(); break;
+
                 };
             };
         }
@@ -66,7 +70,8 @@ namespace Budget
                 Console.WriteLine("V)iew Info");
                 Console.WriteLine("I)ncome Info");
                 Console.WriteLine("C)heck Income");
-
+                Console.WriteLine("E)xpense Info");
+                Console.WriteLine("G)et Expense Info");
                 Console.WriteLine("Q)uit");
 
                 //Get input from user
@@ -82,6 +87,10 @@ namespace Budget
                     return 'I';
                 else if (String.Compare(value, "C", StringComparison.CurrentCultureIgnoreCase) == 0)
                     return 'C';
+                else if (String.Compare(value, "E", StringComparison.CurrentCultureIgnoreCase) == 0)
+                    return 'E';
+                else if (String.Compare(value, "G", StringComparison.CurrentCultureIgnoreCase) == 0)
+                    return 'G';
 
                 DisplayError("Invalid option");
             } while (true);
@@ -157,36 +166,58 @@ namespace Budget
 
         public static void Today ()
         {
-        // Get the current date.
-        DateTime date = DateTime.Today;
-        // Display the date in the default (general) format.
-        Console.WriteLine(date.ToString("d"));
-        Console.WriteLine();
-        // Display the date in a variety of formats.
+            // Get the current date.
+            DateTime date = DateTime.Today;
+            // Display the date in the default (general) format.
+            Console.WriteLine(date.ToString("d"));
+            Console.WriteLine();
+            // Display the date in a variety of formats.
         }
 
         static void AddIncome ()
         {
-        Console.WriteLine("amount to add: ");
-        amount = ReadInt32(0);
+            Console.WriteLine("Amount of Income: ");
+            amount = ReadInt32(0);
 
-        Console.WriteLine("Description: ");
-        description = ReadString(true);
+            Console.WriteLine("Description: ");
+            description = ReadString(true);
 
-        Console.WriteLine("Category: ");
-        category = ReadString(false);
+            Console.WriteLine("Category: ");
+            category = ReadString(false);
 
-        Console.WriteLine("entryDate: ");
-        date = DateTime.Today;
+            Console.WriteLine("EntryDate: ");
+            date = DateTime.Today;
         }
 
         static void CheckIncome ()
         {
-        Console.WriteLine("Name\t\tdescription\tcategory\tdate");
-        Console.WriteLine("-----------------");
-        Console.WriteLine("".PadLeft(60, '-'));
-        var message = $"{amount}\t\t{description}\t\t{category}\t\t{date.ToString("d")}";
-        Console.WriteLine(message);
+            Console.WriteLine("Amount\t\t\tDescription\t\tCategory\t\tDate");
+            Console.WriteLine("".PadLeft(90, '-'));
+            var message = $"{amount.ToString("C")}\t\t{description}\t\t\t{category}\t\t\t{date.ToString("d")}";
+            Console.WriteLine(message);
+        }
+
+        static void ExpenseInfo ()
+        {
+            Console.WriteLine("Amount of Expense: ");
+            amount = ReadInt32(0);
+
+            Console.WriteLine("Description: ");
+            description = ReadString(true);
+
+            Console.WriteLine("Category: ");
+            category = ReadString(false);
+
+            Console.WriteLine("EntryDate: ");
+            date = DateTime.Today;
+        }
+
+        static void GetExpenseInfo ()
+        {
+            Console.WriteLine("Amount\t\t\tDescription\t\tCategory\t\tDate");
+            Console.WriteLine("".PadLeft(90, '-'));
+            var message = $"{amount.ToString("C")}\t\t{description}\t\t\t{category}\t\t\t{date.ToString("d")}";
+            Console.WriteLine(message);
         }
 
     }
