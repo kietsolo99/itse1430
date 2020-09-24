@@ -58,9 +58,6 @@ namespace Budget
 
         static char DisplayMenu ()
         {
-            // 1+ iteration, post test
-            // do S while (E);
-            // block statement => { S* }
             do
             {
                 Console.WriteLine("Budget");
@@ -74,7 +71,6 @@ namespace Budget
                 Console.WriteLine("G)et Expense Info");
                 Console.WriteLine("Q)uit");
 
-                //Get input from user
                 string value = Console.ReadLine();
 
                 if (String.Compare(value, "Q", true) == 0)
@@ -156,7 +152,6 @@ namespace Budget
             {
                 string value = Console.ReadLine();
 
-                //If not required or not empty return
                 if (!required || value != "")
                     return value;
 
@@ -166,12 +161,9 @@ namespace Budget
 
         public static void Today ()
         {
-            // Get the current date.
             DateTime date = DateTime.Today;
-            // Display the date in the default (general) format.
             Console.WriteLine(date.ToString("d"));
             Console.WriteLine();
-            // Display the date in a variety of formats.
         }
 
         static void AddIncome ()
