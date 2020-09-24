@@ -22,11 +22,15 @@ namespace Budget
                     case 'A': AddInfo(); break;
 
                     case 'V': ViewInfo(); break;
+
+                    case 'I': AddIncome(); break;
+                    
+                    case 'C': CheckIncome(); break;
+
                 };
             };
         }
 
-        static decimal currency;
         static string name = "";
         static string accountNumber;
         static decimal balance;
@@ -60,21 +64,24 @@ namespace Budget
 
                 Console.WriteLine("A)dd Info");
                 Console.WriteLine("V)iew Info");
+                Console.WriteLine("I)ncome Info");
+                Console.WriteLine("C)heck Income");
+
                 Console.WriteLine("Q)uit");
 
                 //Get input from user
                 string value = Console.ReadLine();
 
-                //C++: if (x = 10) ; //Not valid in C#
-                // if (E) S;
-                // if (E) S else S;
-                //if (value == "Q")   // 2 equal signs => equality 
                 if (String.Compare(value, "Q", true) == 0)
                     return 'Q';
                 else if (String.Compare(value, "A", StringComparison.CurrentCultureIgnoreCase) == 0)
                     return 'A';
                 else if (String.Compare(value, "V", true) == 0)
                     return 'V';
+                else if (String.Compare(value, "I", StringComparison.CurrentCultureIgnoreCase) == 0)
+                    return 'I';
+                else if (String.Compare(value, "C", StringComparison.CurrentCultureIgnoreCase) == 0)
+                    return 'C';
 
                 DisplayError("Invalid option");
             } while (true);
@@ -127,17 +134,10 @@ namespace Budget
         static void ViewInfo ()
         {
             Console.WriteLine("Name\t\tAccountNumber\tBalance");
-            //Console.WriteLine("-----------------");
+            Console.WriteLine("-----------------");
             Console.WriteLine("".PadLeft(60, '-'));
-            //var classicIndicator = isClassic ? "Yes" : "No";
             var message = $"{name}\t\t{accountNumber}\t\t{balance.ToString("C")}";
             Console.WriteLine(message);
-            //Console.WriteLine( balance.ToString("C"));
-            //Console.WriteLine(message);
-            //if (!String.IsNullOrEmpty(description))
-            //    Console.WriteLine(description);
-
-            //Console.WriteLine("");
         }
 
 
@@ -155,23 +155,39 @@ namespace Budget
             } while (true);
         }
 
-        //static DateTime ReadDateTime ()
+        public static void Today ()
+        {
+        // Get the current date.
+        DateTime date = DateTime.Today;
+        // Display the date in the default (general) format.
+        Console.WriteLine(date.ToString("d"));
+        Console.WriteLine();
+        // Display the date in a variety of formats.
+        }
 
-        //static void IncomeInfo ()
-        //{
-        //    Console.WriteLine("Name: ");
-        //    description = ReadString(true);
+        static void AddIncome ()
+        {
+        Console.WriteLine("amount to add: ");
+        amount = ReadInt32(0);
 
-        //    Console.WriteLine("Name: ");
-        //    category = ReadString(true);
+        Console.WriteLine("Description: ");
+        description = ReadString(true);
 
-        //    Console.WriteLine("amount to add: ");
-        //    amount = ReadInt32(0);
+        Console.WriteLine("Category: ");
+        category = ReadString(false);
 
-        //    Console.WriteLine("entryDate: ");
-        //    date = ReadDecimal(0);
+        Console.WriteLine("entryDate: ");
+        date = DateTime.Today;
+        }
 
-        //}
+        static void CheckIncome ()
+        {
+        Console.WriteLine("Name\t\tdescription\tcategory\tdate");
+        Console.WriteLine("-----------------");
+        Console.WriteLine("".PadLeft(60, '-'));
+        var message = $"{amount}\t\t{description}\t\t{category}\t\t{date.ToString("d")}";
+        Console.WriteLine(message);
+        }
 
     }
 }
