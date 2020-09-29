@@ -28,27 +28,29 @@
         /// </summary>
         private void InitializeComponent ()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.Name = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this._txtName = new System.Windows.Forms.TextBox();
             this._txtDescription = new System.Windows.Forms.TextBox();
             this._txtRunLength = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this._chkClassic = new System.Windows.Forms.CheckBox();
+            this._comboRating = new System.Windows.Forms.ComboBox();
             this._btnSave = new System.Windows.Forms.Button();
             this._btnCancel = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this._txtReaseYear = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // label1
+            // Name
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name";
+            this.Name.AutoSize = true;
+            this.Name.Location = new System.Drawing.Point(38, 53);
+            this.Name.Name = "Name";
+            this.Name.Size = new System.Drawing.Size(39, 15);
+            this.Name.TabIndex = 1;
+            this.Name.Text = "Name";
             // 
             // label2
             // 
@@ -92,28 +94,29 @@
             this._txtRunLength.Size = new System.Drawing.Size(59, 23);
             this._txtRunLength.TabIndex = 6;
             // 
-            // checkBox1
+            // _chkClassic
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(154, 275);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(78, 19);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Is Classic?";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this._chkClassic.AutoSize = true;
+            this._chkClassic.Location = new System.Drawing.Point(154, 275);
+            this._chkClassic.Name = "_chkClassic";
+            this._chkClassic.Size = new System.Drawing.Size(78, 19);
+            this._chkClassic.TabIndex = 7;
+            this._chkClassic.Text = "Is Classic?";
+            this._chkClassic.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // _comboRating
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this._comboRating.FormattingEnabled = true;
+            this._comboRating.Items.AddRange(new object[] {
             "G",
             "PG",
             "PG-13",
             "R"});
-            this.comboBox1.Location = new System.Drawing.Point(154, 322);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
-            this.comboBox1.TabIndex = 8;
+            this._comboRating.Location = new System.Drawing.Point(154, 322);
+            this._comboRating.Name = "_comboRating";
+            this._comboRating.Size = new System.Drawing.Size(121, 23);
+            this._comboRating.TabIndex = 8;
+            this._comboRating.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // _btnSave
             // 
@@ -123,6 +126,7 @@
             this._btnSave.TabIndex = 9;
             this._btnSave.Text = "Save";
             this._btnSave.UseVisualStyleBackColor = true;
+            this._btnSave.Click += new System.EventHandler(this.OnSave);
             // 
             // _btnCancel
             // 
@@ -132,32 +136,52 @@
             this._btnCancel.TabIndex = 10;
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Click += new System.EventHandler(this.OnCancel);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(37, 330);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 15);
+            this.label4.Size = new System.Drawing.Size(41, 15);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Ranting";
+            this.label4.Text = "Rating";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(38, 380);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 15);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Release Year";
+            // 
+            // _txtReaseYear
+            // 
+            this._txtReaseYear.Location = new System.Drawing.Point(153, 377);
+            this._txtReaseYear.Name = "_txtReaseYear";
+            this._txtReaseYear.Size = new System.Drawing.Size(100, 23);
+            this._txtReaseYear.TabIndex = 13;
+            this._txtReaseYear.Text = "1900";
             // 
             // MovieForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._txtReaseYear);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnSave);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this._comboRating);
+            this.Controls.Add(this._chkClassic);
             this.Controls.Add(this._txtRunLength);
             this.Controls.Add(this._txtDescription);
             this.Controls.Add(this._txtName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Name);
             this.Name = "MovieForm";
             this.Text = "Add Movie";
             this.ResumeLayout(false);
@@ -167,16 +191,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Name;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _txtName;
         private System.Windows.Forms.TextBox _txtDescription;
         private System.Windows.Forms.TextBox _txtRunLength;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.CheckBox _chkClassic;
+        private System.Windows.Forms.ComboBox _comboRating;
         private System.Windows.Forms.Button _btnSave;
         private System.Windows.Forms.Button _btnCancel;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox _txtReaseYear;
     }
 }
