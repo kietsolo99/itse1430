@@ -15,56 +15,67 @@ namespace MovieLibrary.WinformsHost
             InitializeComponent();
         }
 
-        private void label3_Click ( object sender, EventArgs e )
-        {
-
-        }
-
-        private void label2_Click ( object sender, EventArgs e )
-        {
-
-        }
-
+        //Method - function inside a class
         private void OnCancel ( object sender, EventArgs e )
         {
             Close();
         }
 
+        //Event handler - handles an event
+        //  This method is handling the button's Click event
+        //     void identifier ( object sender, EventArgs e )
         private void OnSave ( object sender, EventArgs e )
         {
-            var movie = new Movie();
-            movie.Name =_txtName.Text;
-            movie.Description =_txtDescription.Text;
-            movie.Rating =_comboRating.SelectedText;
-            movie.IsClassic =_chkClassic.Checked;
+            // I want the button that was clicked
+            //Type casting
+            // WRONG: var button = (Button)sender;  // C-style cast - crashes if wrong
+            //var str = (string)10;
+            // CORRECT: var button = sender as Button;  // as operator - always safe returns typed version or null
+            var button = sender as Button;
+            if (button == null)
+                return;
 
-            movie.RunLength =ReadAsInt32(_txtRunLength);
-            movie.ReleaseYear=ReadAsInt32(_txtReaseYear);
-            //TO DO: fix validation
+            var movie = new Movie();
+            movie.Name = _txtName.Text;
+            movie.Description = _txtDescription.Text;
+            movie.Rating = _comboRating.SelectedText;
+            movie.IsClassic = _chkClassic.Checked;
+
+            movie.RunLength = ReadAsInt32(_txtRunLength);  //this.ReadAsInt32
+            movie.ReleaseYear = ReadAsInt32(_txtReleaseYear);
+
+            //Using a constant
+            //  1. Type name, not instance
+            var nameLength = Movie.MaximumNameLength; //50
+            //var nameLength1 = 50;
+
+            var descriptionLength = movie.MaximumDescriptionLength;
+
+            //Won't compile
+            //movie.Age = 10;
+
+            //TODO: Fix validation
             var error = movie.Validate();
-            if(!String.IsNullOrEmpty(error))
+            if (!String.IsNullOrEmpty(error))
             {
                 //Show error message - use for standard messages
-                MessageBox.Show(error, "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Close();
+                MessageBox.Show(this, error, "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.None;
                 return;
             };
 
-            //TO DO: Return movie
+            //TODO: Return movie
             Close();
         }
 
-        private int ReadAsInt32( Control control)
+        private int ReadAsInt32 ( Control control )
         {
             var text = control.Text;
+
             if (Int32.TryParse(text, out var result))
                 return result;
 
             return -1;
-        }
-        private void comboBox1_SelectedIndexChanged ( object sender, EventArgs e )
-        {
-
         }
     }
 }

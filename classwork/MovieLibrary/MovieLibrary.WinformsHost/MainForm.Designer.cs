@@ -50,7 +50,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(722, 24);
-            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // toolStripMenuItem1
@@ -75,30 +75,31 @@
             this.toolStripSeparator1,
             this.toolStripMenuItem7});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(52, 20);
-            this.toolStripMenuItem2.Text = "&Movie";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(57, 20);
+            this.toolStripMenuItem2.Text = "&Movies";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItem5.ShortcutKeys = System.Windows.Forms.Keys.Insert;
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(118, 22);
             this.toolStripMenuItem5.Text = "&Add";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(118, 22);
             this.toolStripMenuItem6.Text = "&Edit";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(115, 6);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(118, 22);
             this.toolStripMenuItem7.Text = "&Delete";
             // 
             // toolStripMenuItem3
@@ -121,6 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 408);
             this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Movie Library";
             this.menuStrip1.ResumeLayout(false);
@@ -144,4 +146,3 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
     }
 }
-

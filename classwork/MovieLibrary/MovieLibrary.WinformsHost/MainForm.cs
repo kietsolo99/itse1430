@@ -36,9 +36,14 @@ namespace MovieLibrary.WinformsHost
 
             //var str = movie.description;           
 
+            //Hooks up an event handler to an event
+            // Event += method
+            // Event -= method
             toolStripMenuItem5.Click += OnMovieAdd;
             toolStripMenuItem7.Click += OnMovieDelete;
         }
+
+        //Event - a notification to interested parties that something has happened
 
         private void OnMovieAdd ( object sender, EventArgs e )
         {
@@ -53,7 +58,6 @@ namespace MovieLibrary.WinformsHost
             //After form is gone
             //TODO: Save movie
             MessageBox.Show("Save successful");
-
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
