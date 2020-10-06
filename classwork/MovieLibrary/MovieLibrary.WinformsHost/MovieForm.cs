@@ -8,12 +8,60 @@ using System.Windows.Forms;
 
 namespace MovieLibrary.WinformsHost
 {
+    // class-declaration ::= [access] [modifiers] class identifier [ : T ]
+
     public partial class MovieForm : Form
     {
-        public MovieForm ()
+        //Access:
+        // Public - accessible in derived type
+        // Protected - accessible in owning type and derived types
+
+        //Members : properties, methods
+        //  Virtual - Base type provides the base implementation but a derived type my override it
+        //  Abstract - Base type defines it but does not implement, derived types must override it
+
+        // Syntax
+        // ctor-declaration ::= [access] T () { S* }
+        public MovieForm ()// : base()
         {
+            //DO NOT CALL virtual members inside of constructors
             InitializeComponent();
         }
+
+        public MovieForm ( Movie movie ) : this(movie, null)
+        {
+            //Movie = Movie;
+        }
+
+        //Constructor chaining - calling one constructor from another
+        public MovieForm ( Movie movie, string title ) : this()
+        {
+            Movie = Movie;
+            Text = title ?? "Add Movie";
+        }
+
+        public virtual Movie Movie { get; set; }
+
+        //public virtual void OnLoad ( EventArgs e ) { }
+        //Override indicates to compiler that you are overriding a virtual method
+        protected override void OnLoad ( EventArgs e )
+        {
+            //Call the base member            
+            //this.OnLoad(e);
+            base.OnLoad(e);
+
+            if (Movie != null)
+            {
+                _txtName.Text = Movie.Name;
+                _txtDescription.Text = Movie.Description;
+                _comboRating.SelectedText = Movie.Rating;
+                _chkClassic.Checked = Movie.IsClassic;
+                _txtRunLength.Text = Movie.RunLength.ToString();
+                _txtReleaseYear.Text = Movie.ReleaseYear.ToString();
+            };
+
+        }
+
 
         //Method - function inside a class
         private void OnCancel ( object sender, EventArgs e )
@@ -64,7 +112,8 @@ namespace MovieLibrary.WinformsHost
                 return;
             };
 
-            //TODO: Return movie
+            // Return movie
+            Movie = movie;
             Close();
         }
 
