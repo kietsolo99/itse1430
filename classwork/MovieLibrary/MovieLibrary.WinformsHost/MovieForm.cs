@@ -9,12 +9,13 @@ using System.Windows.Forms;
 namespace MovieLibrary.WinformsHost
 {
     // class-declaration ::= [access] [modifiers] class identifier [ : T ]
-
+    // C# supports only a single base type
     public partial class MovieForm : Form
     {
         //Access:
         // Public - accessible in derived type
         // Protected - accessible in owning type and derived types
+        // Private - only owning type
 
         //Members : properties, methods
         //  Virtual - Base type provides the base implementation but a derived type my override it
@@ -22,6 +23,7 @@ namespace MovieLibrary.WinformsHost
 
         // Syntax
         // ctor-declaration ::= [access] T () { S* }
+        //Can call base constructor if needed, base default constructor called if not specified
         public MovieForm ()// : base()
         {
             //DO NOT CALL virtual members inside of constructors
@@ -30,16 +32,21 @@ namespace MovieLibrary.WinformsHost
 
         public MovieForm ( Movie movie ) : this(movie, null)
         {
-            //Movie = Movie;
+            //Constructor chaining eliminates need for this dup initialization
+            //Movie = movie;
         }
 
         //Constructor chaining - calling one constructor from another
         public MovieForm ( Movie movie, string title ) : this()
         {
-            Movie = Movie;
+            //Constructor chaining eliminates need for this dup initialization
+            //InitializeComponent();
+
+            Movie = movie;
             Text = title ?? "Add Movie";
         }
 
+        //Properties can be virtual if needed but generally does not make sense
         public virtual Movie Movie { get; set; }
 
         //public virtual void OnLoad ( EventArgs e ) { }
@@ -59,9 +66,7 @@ namespace MovieLibrary.WinformsHost
                 _txtRunLength.Text = Movie.RunLength.ToString();
                 _txtReleaseYear.Text = Movie.ReleaseYear.ToString();
             };
-
         }
-
 
         //Method - function inside a class
         private void OnCancel ( object sender, EventArgs e )

@@ -92,7 +92,7 @@ namespace MovieLibrary.WinformsHost
             //  3. Constructor (finish initialization)
             //  4. Return new instance
             var form = new MovieForm(_movie, "Edit Movie");
-            form.Movie = _movie;
+            //form.Movie = _movie;
 
             var result = form.ShowDialog(this);  //Blocks until form is dismissed
             if (result == DialogResult.Cancel)
