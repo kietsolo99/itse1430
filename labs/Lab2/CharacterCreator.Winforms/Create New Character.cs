@@ -36,7 +36,6 @@ namespace CharacterCreator.Winforms
 
             };
 
-            // Go ahead and show validation errors
             ValidateChildren();
         }
         private void OnCancel ( object sender, EventArgs e )
@@ -45,7 +44,6 @@ namespace CharacterCreator.Winforms
         }
         private void OnSave ( object sender, EventArgs e )
         {
-            //Force validation of all controls
             if (!ValidateChildren())
             {
                 DialogResult = DialogResult.None;
@@ -67,20 +65,16 @@ namespace CharacterCreator.Winforms
             character.Charisma = ReadAsInt32(_numUpDownCha);
             character.Description = _txtDescription.Text;
 
-            var nameLength = Character.MaximumNameLength;
-
             var descriptionLength = character.MaximumDescriptionLength;
 
             var error = character.Validate();
             if (!String.IsNullOrEmpty(error))
             {
-                //Show error message - use for standard messages
                 MessageBox.Show(this, error, "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.None;
                 return;
             };
 
-            // Return movie
             Character = character;
             Close();
         }
@@ -109,7 +103,45 @@ namespace CharacterCreator.Winforms
 
         }
 
-                private int ReadAsInt32 ( Control control )
+
+        private void OnValidateStr ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            var value = ReadAsInt32(control);
+
+            if (value < 0 && value > 100)
+            {
+                _errors.SetError(control, "Values must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidateInt ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            var value = ReadAsInt32(control);
+
+            if (value < 0 && value > 100)
+            {
+                _errors.SetError(control, "Values must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void _numUpDownInt_ValueChanged ( object sender, EventArgs e )
+        {
+
+        }
+
+        private int ReadAsInt32 ( Control control )
         {
             var text = control.Text;
 
@@ -119,35 +151,52 @@ namespace CharacterCreator.Winforms
             return -1;
         }
 
-        private void OnValidateStr ( object sender, CancelEventArgs e )
+        private void OnValidateAgi ( object sender, CancelEventArgs e )
         {
+            var control = sender as TextBox;
 
+            var value = ReadAsInt32(control);
+
+            if (value < 0 && value > 100)
+            {
+                _errors.SetError(control, "Values must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
         }
 
-        private void OnValidateInt ( object sender, CancelEventArgs e )
+        private void OnValidateCon ( object sender, CancelEventArgs e )
         {
+            var control = sender as TextBox;
 
+            var value = ReadAsInt32(control);
+
+            if (value < 0 && value > 100)
+            {
+                _errors.SetError(control, "Values must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
         }
 
-        private void _numUpDownInt_ValueChanged ( object sender, EventArgs e )
+        private void OnValidateCha ( object sender, CancelEventArgs e )
         {
+            var control = sender as TextBox;
 
+            var value = ReadAsInt32(control);
+
+            if (value < 0 && value > 100)
+            {
+                _errors.SetError(control, "Values must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
         }
-        //private void OnValidateName ( object sender, CancelEventArgs e )
-        //{
-        //    var control = sender as TextBox;
-
-        //    //Name is required
-        //    if (String.IsNullOrEmpty(control.Text))
-        //{
-        //    //Set error using ErrorProvider
-        //    _errors.SetError(control, "Name is required");
-        //    e.Cancel = true;  //Not validate
-        //} else
-        //{
-        //    //Clear error from provider
-        //    _errors.SetError(control, "");
-        //};
-        //}
     }
 }

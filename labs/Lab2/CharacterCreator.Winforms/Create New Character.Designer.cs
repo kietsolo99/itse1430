@@ -176,6 +176,7 @@
             // 
             // _errors
             // 
+            this._errors.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this._errors.ContainerControl = this;
             // 
             // Strength
@@ -254,6 +255,7 @@
             this._numUpDownAgi.Name = "_numUpDownAgi";
             this._numUpDownAgi.Size = new System.Drawing.Size(46, 23);
             this._numUpDownAgi.TabIndex = 19;
+            this._numUpDownAgi.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAgi);
             // 
             // _numUpDownCon
             // 
@@ -262,6 +264,7 @@
             this._numUpDownCon.Name = "_numUpDownCon";
             this._numUpDownCon.Size = new System.Drawing.Size(46, 23);
             this._numUpDownCon.TabIndex = 20;
+            this._numUpDownCon.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateCon);
             // 
             // _numUpDownCha
             // 
@@ -270,6 +273,7 @@
             this._numUpDownCha.Name = "_numUpDownCha";
             this._numUpDownCha.Size = new System.Drawing.Size(46, 23);
             this._numUpDownCha.TabIndex = 21;
+            this._numUpDownCha.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateCha);
             // 
             // _btnSave
             // 
