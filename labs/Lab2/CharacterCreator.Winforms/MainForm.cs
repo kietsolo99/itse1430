@@ -25,6 +25,14 @@ namespace CharacterCreator.Winforms
             character = new Character();
 
             character.Name =  "Karthus";
+            character.Profession = "Wizard";
+            character.Race = "Gnome";
+            character.Intelligence = 90;
+            character.Strength = 20;
+            character.Agility = 40;
+            character.Charisma = 20;
+            character.Constitution = 50;
+            character.Description = "Undead Wizard";
 
             toolStripMenuItem2.Click += OnExit;
             toolStripMenuItem4.Click += OnHelpAbout;
@@ -37,17 +45,7 @@ namespace CharacterCreator.Winforms
             var form = new CreateNewCharacter();
 
             form.ShowDialog();
-            //// ShowDialog - modal ::= user must interact with child form, cannot access parent
-            //// Show - modeless ::= multiple window open and accessible at same time
-            //var result = form.ShowDialog(this);  //Blocks until form is dismissed
-            //if (result == DialogResult.Cancel)
-            //    return;
 
-            ////After form is gone
-            ////TODO: Save movie
-            //_movie = form.Movie;
-
-            //MessageBox.Show("Save successful");
         }
 
         private void OnHelpAbout ( object sender, EventArgs e )
@@ -60,7 +58,6 @@ namespace CharacterCreator.Winforms
         private void OnExit ( object sender, EventArgs e )
         {
             Close();
-
         }
     }
 }

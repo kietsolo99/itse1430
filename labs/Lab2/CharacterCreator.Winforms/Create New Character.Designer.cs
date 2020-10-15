@@ -273,6 +273,7 @@
             this._numUpDownCha.Name = "_numUpDownCha";
             this._numUpDownCha.Size = new System.Drawing.Size(46, 23);
             this._numUpDownCha.TabIndex = 21;
+            this._numUpDownCha.ValueChanged += new System.EventHandler(this._numUpDownCha_ValueChanged);
             this._numUpDownCha.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateCha);
             // 
             // _btnSave

@@ -106,11 +106,11 @@ namespace CharacterCreator.Winforms
 
         private void OnValidateStr ( object sender, CancelEventArgs e )
         {
-            var control = sender as TextBox;
+            var control = sender as NumericUpDown;
 
             var value = ReadAsInt32(control);
 
-            if (value < 0 && value > 100)
+            if (value <= 0 && value > 100)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -122,11 +122,11 @@ namespace CharacterCreator.Winforms
 
         private void OnValidateInt ( object sender, CancelEventArgs e )
         {
-            var control = sender as TextBox;
+            var control = sender as NumericUpDown;
 
             var value = ReadAsInt32(control);
 
-            if (value < 0 && value > 100)
+            if (value <= 0 && value > 100)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -153,11 +153,11 @@ namespace CharacterCreator.Winforms
 
         private void OnValidateAgi ( object sender, CancelEventArgs e )
         {
-            var control = sender as TextBox;
+            var control = sender as NumericUpDown;
 
             var value = ReadAsInt32(control);
 
-            if (value < 0 && value > 100)
+            if (value <= 0 && value > 100)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -169,11 +169,11 @@ namespace CharacterCreator.Winforms
 
         private void OnValidateCon ( object sender, CancelEventArgs e )
         {
-            var control = sender as TextBox;
+            var control = sender as NumericUpDown;
 
             var value = ReadAsInt32(control);
 
-            if (value < 0 && value > 100)
+            if (value <= 0 && value > 100)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -185,11 +185,11 @@ namespace CharacterCreator.Winforms
 
         private void OnValidateCha ( object sender, CancelEventArgs e )
         {
-            var control = sender as TextBox;
+            var control = sender as NumericUpDown;
 
             var value = ReadAsInt32(control);
 
-            if (value < 0 && value > 100)
+            if (value <= 0 && value > 100)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -197,6 +197,11 @@ namespace CharacterCreator.Winforms
             {
                 _errors.SetError(control, "");
             };
+        }
+
+        private void _numUpDownCha_ValueChanged ( object sender, EventArgs e )
+        {
+
         }
     }
 }

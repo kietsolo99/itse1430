@@ -27,19 +27,11 @@ namespace CharacterCreator
         //private string _name = "";
 
         public string Profession;
-        //{
-        //    get { return _profession ?? ""; }
-        //    set { _profession = value; }
-        //}
-        //private string _profession = "";
+
 
 
         public string Race;
-        //{
-        //    get { return _race ?? ""; }
-        //    set { _race = value; }
-        //}
-        //private string _race = "";
+
 
 
         public int Strength { get; set; }
@@ -54,11 +46,7 @@ namespace CharacterCreator
 
 
         public string Description;
-        //{
-        //    get { return _description ?? ""; }
-        //    set { _description = value; }
-        //}
-        //private string _description = "";
+
 
         public string Validate ()
         { 
