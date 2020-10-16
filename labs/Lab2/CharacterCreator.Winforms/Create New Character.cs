@@ -13,6 +13,15 @@ namespace CharacterCreator.Winforms
         public CreateNewCharacter ()
         {
             InitializeComponent();
+
+            _btnSave.Click += OnSave;
+            _btnCancel.Click += OnCancel;
+        }
+
+        public CreateNewCharacter ( Character character, string title ) : this()
+        {
+            Character = character;
+            Text = title ?? "Add Character";
         }
 
         public virtual Character Character { get; set; }
@@ -200,6 +209,11 @@ namespace CharacterCreator.Winforms
         }
 
         private void _numUpDownCha_ValueChanged ( object sender, EventArgs e )
+        {
+
+        }
+
+        private void _numUpDownAgi_ValueChanged ( object sender, EventArgs e )
         {
 
         }

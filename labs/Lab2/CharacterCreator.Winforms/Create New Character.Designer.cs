@@ -255,6 +255,7 @@
             this._numUpDownAgi.Name = "_numUpDownAgi";
             this._numUpDownAgi.Size = new System.Drawing.Size(46, 23);
             this._numUpDownAgi.TabIndex = 19;
+            this._numUpDownAgi.ValueChanged += new System.EventHandler(this._numUpDownAgi_ValueChanged);
             this._numUpDownAgi.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAgi);
             // 
             // _numUpDownCon
@@ -279,6 +280,7 @@
             // _btnSave
             // 
             this._btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnSave.Location = new System.Drawing.Point(192, 416);
             this._btnSave.Name = "_btnSave";
             this._btnSave.Size = new System.Drawing.Size(75, 23);
@@ -289,6 +291,8 @@
             // _btnCancel
             // 
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnCancel.CausesValidation = false;
+            this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Location = new System.Drawing.Point(273, 416);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);

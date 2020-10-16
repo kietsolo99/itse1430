@@ -14,25 +14,29 @@ namespace CharacterCreator
 
         public readonly int MaximumDescriptionLength = 200;
 
-        public string Name;
-        //{
-        //    get {
-        //        return _name ?? "";
-        //    }
+        public int Id { get; set; }
 
-        //    set {
-        //        _name = value;
-        //    }
-        //}
-        //private string _name = "";
+        public string Name
+        {
+            get { return _name ?? "";}
 
-        public string Profession;
+            set { _name = value;}
+        }
+        private string _name = "";
 
+        public string Profession
+        {
+            get { return _profession ?? ""; }
+            set { _profession = value; }
+        }
+        private string _profession;
 
-
-        public string Race;
-
-
+        public string Race
+        {
+            get { return _race ?? ""; }
+            set { _race = value; }
+        }
+        private string _race;
 
         public int Strength { get; set; }
 
@@ -53,8 +57,27 @@ namespace CharacterCreator
             if (String.IsNullOrEmpty(Name)) 
                 return "Name is required";
 
+            if (Strength <= 0 && Strength > 100)
+                return "Values must be between 1 and 100";
+
+            if (Intelligence <= 0 && Intelligence > 100)
+                return "Values must be between 1 and 100";
+            
+            if (Agility <= 0 && Agility > 100)
+                return "Values must be between 1 and 100";
+            
+            if (Constitution <= 0 && Constitution > 100)
+                return "Values must be between 1 and 100";
+            
+            if (Charisma <= 0 && Charisma > 100)
+                return "Values must be between 1 and 100";
+
             return null;
         }
 
+        public override string ToString ()
+        {
+            return Name;
+        }
     }
 }

@@ -35,7 +35,12 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this._lstCharacters = new System.Windows.Forms.ListBox();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,7 +89,10 @@
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem6});
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem9,
+            this.toolStripSeparator1,
+            this.toolStripMenuItem10});
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(70, 20);
             this.toolStripMenuItem5.Text = "&Character";
@@ -96,22 +104,55 @@
             this.toolStripMenuItem6.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem6.Text = "&New";
             // 
-            // listBox1
+            // toolStripMenuItem9
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(0, 24);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(284, 387);
-            this.listBox1.TabIndex = 1;
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem9.Text = "&Edit";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem10.Text = "&Delete";
+            // 
+            // _lstCharacters
+            // 
+            this._lstCharacters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._lstCharacters.FormattingEnabled = true;
+            this._lstCharacters.ItemHeight = 15;
+            this._lstCharacters.Location = new System.Drawing.Point(0, 24);
+            this._lstCharacters.Name = "_lstCharacters";
+            this._lstCharacters.Size = new System.Drawing.Size(284, 387);
+            this._lstCharacters.TabIndex = 1;
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem7.Text = "&Edit";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem8.Text = "&Delete";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 411);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this._lstCharacters);
             this.Controls.Add(this.menuStrip1);
             this.MinimumSize = new System.Drawing.Size(260, 420);
             this.Name = "MainForm";
@@ -133,7 +174,12 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox _lstCharacters;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
