@@ -144,6 +144,7 @@
             this._comboProfession.Name = "_comboProfession";
             this._comboProfession.Size = new System.Drawing.Size(132, 23);
             this._comboProfession.TabIndex = 8;
+            this._comboProfession.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateProfession);
             // 
             // _comboRace
             // 
@@ -162,6 +163,7 @@
             this._comboRace.Name = "_comboRace";
             this._comboRace.Size = new System.Drawing.Size(132, 23);
             this._comboRace.TabIndex = 9;
+            this._comboRace.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateRace);
             // 
             // _txtDescription
             // 
@@ -304,6 +306,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(360, 451);
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnSave);

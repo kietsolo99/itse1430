@@ -102,6 +102,34 @@ namespace CharacterCreator.Winforms
             };
         }
 
+        private void OnValidateRace ( object sender, CancelEventArgs e )
+        {
+            var control = sender as ComboBox;
+
+            if (String.IsNullOrEmpty(control.Text))
+            {
+                _errors.SetError(control, "Race is required");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidateProfession ( object sender, CancelEventArgs e )
+        {
+            var control = sender as ComboBox;
+
+            if (String.IsNullOrEmpty(control.Text))
+            {
+                _errors.SetError(control, "Profession is required");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
         private void OnValidateAttribute ( object sender, CancelEventArgs e )
         {
 
@@ -119,7 +147,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 && value > 100)
+            if (value <= 0)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -135,7 +163,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 && value > 100)
+            if (value <= 0)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -166,7 +194,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 && value > 100)
+            if (value <= 0)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -182,7 +210,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 && value > 100)
+            if (value <= 0 )
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -198,7 +226,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 && value > 100)
+            if (value <= 0)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
