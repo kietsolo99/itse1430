@@ -1,4 +1,5 @@
 ﻿using System;    //DO NOT DELETE
+using System.Linq;
 using System.Windows.Forms;
 
 //Hierarchical namesapces
@@ -52,7 +53,6 @@ namespace MovieLibrary.WinformsHost
             RefreshUI();
         }
 
-
         private void OnHelpAbout ( object sender, EventArgs e )
         {
             var about = new AboutBox();
@@ -66,7 +66,7 @@ namespace MovieLibrary.WinformsHost
         //  Instantiate ::=   new T[Ei]
         //  Index : 0 to Size - 1
         //private Movie[] _movies = new Movie[100];  //0..99
-        private MovieDatabase _movies = new MovieDatabase();
+        private IMovieDatabase _movies = new MovieDatabase();
         //private Movie[] _emptyMovies = new Movie[0];   // empty arrays and nulls to be equivalent so always use empty array instead of null
 
         private void AddMovie ( Movie movie )
@@ -145,8 +145,9 @@ namespace MovieLibrary.WinformsHost
 
         private void RefreshUI ()
         {
-            _lstMovies.DataSource = null;
-            _lstMovies.DataSource = _movies.GetAll();
+            _lstMovies.DataSource  = _movies.GetAll().ToArray();
+            //_lstMovies.DataSource = null;
+            //_lstMovies.DataSource = _movies.GetAll();
 
             //_lstMovies.DisplayMember = nameof(Movie.Name); //"Name"            
         }
