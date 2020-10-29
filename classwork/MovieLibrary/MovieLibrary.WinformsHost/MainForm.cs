@@ -1,4 +1,5 @@
 ﻿using System;    //DO NOT DELETE
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -52,7 +53,18 @@ namespace MovieLibrary.WinformsHost
         {
             base.OnLoad(e);
 
-            RefreshUI();
+            int count = RefreshUI();
+            if (count == 0)
+            {
+                //Seed database if empty
+                if (MessageBox.Show(this, "No movies found. Do you want to add some example movies?", "Database Empty", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var seed = new SeedMovieDatabase();
+                    seed.Seed(_movies);
+
+                    RefreshUI();
+                };
+            };
         }
 
         private void OnHelpAbout ( object sender, EventArgs e )
@@ -145,13 +157,17 @@ namespace MovieLibrary.WinformsHost
             return _lstMovies.SelectedItem as Movie;
         }
 
-        private void RefreshUI ()
+        private int RefreshUI ()
         {
-            _lstMovies.DataSource  = _movies.GetAll().ToArray();
+            var items = _movies.GetAll().ToArray();
+
+            _lstMovies.DataSource  = items;
             //_lstMovies.DataSource = null;
             //_lstMovies.DataSource = _movies.GetAll();
 
             //_lstMovies.DisplayMember = nameof(Movie.Name); //"Name"            
+
+            return items.Length;
         }
 
         private void OnMovieAdd ( object sender, EventArgs e )
