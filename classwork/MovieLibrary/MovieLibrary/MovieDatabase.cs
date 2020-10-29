@@ -15,7 +15,7 @@ namespace MovieLibrary
     //  2. Must derive from it
     //  3. Must implement all abstract members
 
-    /// <summary>Provides the base implementation of a database of movies.</summary>
+    /// <summary>Provides a base implementation of <see cref="IMovieDatabase"/>.</summary>
     public abstract class MovieDatabase : IMovieDatabase //, IEditableDatabase, IReadableDatabase
     {
         //Default constructor to seed database
@@ -105,6 +105,7 @@ namespace MovieLibrary
         //Not on interface
         public void Foo () { }
 
+        /// <inheritdoc />
         public Movie Add ( Movie movie, out string error )
         {
             //TODO: Movie is not null
@@ -121,7 +122,7 @@ namespace MovieLibrary
             };
 
             // Movie name is unique
-            var existing = FindByName(movie.Name);
+            var existing = GetByName(movie.Name);
             if (existing != null)
             {
                 error = "Movie must be unique";
@@ -132,86 +133,29 @@ namespace MovieLibrary
             return AddCore(movie);
         }
 
-        protected abstract Movie AddCore ( Movie movie );
-
-        protected virtual Movie FindByName ( string name )
-        {
-            foreach (var movie in GetAll())
-            {
-                if (String.Compare(movie.Name, name, true) == 0)
-                    return movie;
-            };
-
-            return null;
-        }
-
+        /// <inheritdoc />
         public void Delete ( int id )
         {
-            //TODO: Validate Id
+            //TODO: Validate Id >= 0
 
-            var movie = GetById(id);
-            if (movie != null)
-            {
-                //Must use the same instance that is stored in the list so ref equality works
-                _movies.Remove(movie);
-            };
-
-            #region For Arrays
-            //for (var index = 0; index < _movies.Length; ++index)
-            //{
-            //    // Array element access ::=  V[int]
-            //    //if (_movies[index] != null && _movies[index].Id == id)
-            //    if (_movies[index]?.Id == id)  // null conditional ?. if instance != null access the member
-            //    {
-            //        _movies[index] = null;
-            //        return;
-            //    };
-            //};
-            #endregion
+            DeleteCore(id);
         }
 
         //Use IEnumerable<T> for readonly lists of items
         //public Movie[] GetAll ()
+
+        /// <inheritdoc />
         public IEnumerable<Movie> GetAll ()
         {
-            //DONT DO THIS
-            //  1. Expose underlying movie items
-            //  2. Callers add/remove movies 
-            //return _movies;
-
-            //var items = new Movie[_movies.Count];
-            //var index = 0;
-
-            //Foreach equivalent
-            // var enumerator = _movies.GetEnumerator();
-            // while (enumerator.MoveNext())
-            // { 
-            //    var movie = enumerator.Current;
-            //    S* 
-            // }
-
-            //iterator IEnumerable<T>
-            //  yield return T
-            foreach (var movie in _movies)   // relies on IEnumerator<T>
-                //items[index++] = CloneMovie(movie);
-                yield return CloneMovie(movie);
-            ;
-
-            //return items;
-
-            #region Arrays
-            //Determine how many movies we're storing
-            //For each one create a cloned copy
-            //return _movies;
-            #endregion
+            return GetAllCore();
         }
 
+        /// <inheritdoc />
         public Movie Get ( int id )
         {
-            var movie = GetById(id);
+            //TODO: id >= 0
 
-            //Clone movie if we found it
-            return (movie != null) ? CloneMovie(movie) : null;
+            return GetByIdCore(id);
         }
 
         private Movie GetById ( int id )
@@ -231,33 +175,61 @@ namespace MovieLibrary
             return null;
         }
 
+        /// <inheritdoc />
         public string Update ( int id, Movie movie )
         {
-            //TODO: Validate Id
-            // Movie exists
-            var existing = GetById(id);
-            if (existing == null)
-                return "Movie not found";
+            //TODO: id >= 0
+            //TODO: Movie is not null
 
-            // updated movie is valid
-            // updated movie name is unique
-            CopyMovie(existing, movie);
+            //Movie is valid
+            var results = new ObjectValidator().TryValidateFullObject(movie);
+            if (results.Count() > 0)
+            {
+                foreach (var result in results)
+                {
+                    return result.ErrorMessage;
+                };
+            };
 
-            //for (var index = 0; index < _movies.Length; ++index)
-            //{
-            //    if (_movies[index]?.Id == id)  // null conditional ?. if instance != null access the member
-            //    {
-            //        //Clone it so we separate our value from argument
-            //        var item = CloneMovie(movie);
+            // Movie name is unique
+            var existing = GetByName(movie.Name);
+            if (existing != null && existing.Id != id)
+                return "Movie must be unique";
 
-            //        item.Id = id;
-            //        _movies[index] = item;
-            //        return "";
-            //    };
-            //};
+            UpdateCore(id, movie);
 
             return "";
         }
+
+        /// <summary>Adds a movie to the database.</summary>
+        /// <param name="movie">The movie to add.</param>
+        /// <returns>The added movie.</returns>
+        protected abstract Movie AddCore ( Movie movie );
+
+        protected abstract void DeleteCore ( int id );
+
+        /// <summary>Finds a movie by name.</summary>
+        /// <param name="name">The movie to find.</param>
+        /// <returns>The movie, if found.</returns>
+        /// <remarks>
+        /// The default implementation enumerates all the movies looking for a match.
+        /// </remarks>
+        protected virtual Movie GetByName ( string name )
+        {
+            foreach (var movie in GetAll())
+            {
+                if (String.Compare(movie.Name, name, true) == 0)
+                    return movie;
+            };
+
+            return null;
+        }
+
+        protected abstract IEnumerable<Movie> GetAllCore ();
+
+        protected abstract Movie GetByIdCore ( int id );
+
+        protected abstract void UpdateCore ( int id, Movie movie );
 
         // Non-generic
         //    ArrayList - list of objects
