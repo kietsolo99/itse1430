@@ -181,7 +181,8 @@ namespace MovieLibrary.WinformsHost
                 return;
 
             //Save movie            
-            AddMovie(form.Movie);
+            //AddMovie(form.Movie);            
+            AddMovie(null);
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )

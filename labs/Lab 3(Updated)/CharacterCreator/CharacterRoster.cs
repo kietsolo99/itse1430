@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 #region
 namespace CharacterCreator
 {
-    public abstract class CharacterDatabase : ICharacterDatabase
+    public abstract class CharacterRoster : ICharacterRoster
     {
         public Character Add ( Character character, out string error )
         {

@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-#region oldcodes
+
 namespace CharacterCreator
 {
     public class Character : IValidatableObject
@@ -83,5 +83,5 @@ namespace CharacterCreator
 
     }
 }
-#endregion
+
 

@@ -43,7 +43,7 @@ namespace CharacterCreator.Winforms
             toolStripMenuItem9.Click += OnCharacterEdit;
         }
 
-        private ICharacterDatabase _characters = new MemoryCharacterDatabase();
+        private ICharacterRoster _characters = new MemoryCharacterDatabase();
 
         protected override void OnLoad ( EventArgs e )
         {

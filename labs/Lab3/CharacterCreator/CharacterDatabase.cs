@@ -4,20 +4,20 @@
  * Kiet Vo
  * Lab 3
  */
-
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-#region
 namespace CharacterCreator
 {
     public abstract class CharacterDatabase : ICharacterDatabase
     {
         public Character Add ( Character character, out string error )
         {
+            if (character == null)
+                throw new ArgumentNullException(nameof(character));
 
             var results = new ObjectValidator().TryValidateFullObject(character);
             if (results.Count() > 0)
@@ -42,7 +42,6 @@ namespace CharacterCreator
 
         public void Delete ( int id )
         {
-
             DeleteCore(id);
         }
 
@@ -50,12 +49,12 @@ namespace CharacterCreator
         {
             return GetAllCore();
         }
+
         public Character Get ( int id )
         {
 
             return GetByIdCore(id);
         }
-
 
         public string Update ( int id, Character character )
         {
@@ -97,29 +96,5 @@ namespace CharacterCreator
         protected abstract Character GetByIdCore ( int id );
 
         protected abstract void UpdateCore ( int id, Character character );
-        private Character CloneCharacter ( Character character )
-        {
-            var item = new Character();
-            item.Id = character.Id;
-            item.Name = character.Name;
-            item.Profession = character.Profession;
-            item.Race = character.Race;
-            item.Strength = character.Strength;
-            item.Intelligence = character.Intelligence;
-            item.Agility = character.Agility;
-            item.Constitution = character.Constitution;
-            item.Charisma = character.Charisma;
-            item.Description = character.Description;
-
-            return item;
-        }
-
-        private Character[] _characters = new Character[100];
-        private int _id = 1;
-
     }
 }
-
-#endregion Old Codes
-
-

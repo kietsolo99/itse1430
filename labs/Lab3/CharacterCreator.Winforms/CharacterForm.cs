@@ -1,64 +1,129 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * ITSE 1430
+ * Character Roster
+ * Kiet Vo
+ * Lab 3
+ */
+using System;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+
+using CharacterCreator.Professions;
 
 namespace CharacterCreator.Winforms
 {
-    public partial class CreateNewCharacter : Form
+    /// <summary>Provides a UI for creating a character.</summary>
+    public partial class CharacterForm : Form
     {
-        public CreateNewCharacter ()
+        #region Construction
+
+        /// <summary>Initializes an instance of the <see cref="CharacterForm"/> class.</summary>
+        public CharacterForm ()
         {
             InitializeComponent();
-
-            _btnSave.Click += OnSave;
-            _btnCancel.Click += OnCancel;
         }
+        #endregion
 
-        public CreateNewCharacter ( Character character, string title ) : this()
-        {
-            Character = character;
-            Text = title ?? "Add Character";
-        }
-
-        public virtual Character Character { get; set; }
-
+        /// <summary>Gets or sets the selected character.</summary>
         public Character SelectedCharacter { get; set; }
 
-
+        //Called when the form loads
         protected override void OnLoad ( EventArgs e )
         {
+            //Load the UI
+            LoadUI();
+        }
 
-            base.OnLoad(e);
+        #region Event Handlers
 
-            if (Character != null)
+        //Called when the Save button is clicked
+        private void OnSave ( object sender, EventArgs e )
+        {            
+            //Save the changes
+            var character = SaveCharacter();
+            if (!ValidateChildren())
             {
-                _txtName.Text = Character.Name;
-                _txtDescription.Text = Character.Description;
-                _comboProfession.SelectedText = Character.Profession;
-                _comboRace.SelectedText = Character.Race;
-                _numUpDownStr.Text = Character.Strength.ToString();
-                _numUpDownInt.Text = Character.Intelligence.ToString();
-                _numUpDownAgi.Text = Character.Agility.ToString();
-                _numUpDownCon.Text = Character.Constitution.ToString();
-                _numUpDownCha.Text = Character.Charisma.ToString();
-
+                DialogResult = DialogResult.None;
+                return;
             };
 
-            ValidateChildren();
+            //Close the form
+            SelectedCharacter = character;
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+        #endregion
+
+        #region Private Members
+
+        private void LoadUI ()
+        {
+            LoadProfessions();
+            LoadRaces();
+
+            if (SelectedCharacter != null)
+            {
+                Text = "Edit Character";
+                LoadCharacter(SelectedCharacter);
+            };
+        }
+
+        private void LoadProfessions ()
+        {
+            //Bind to the standard professions 
+            _cbProfession.DataSource = StandardProfessions.Professions;
+
+            //Don't select anything by default
+            _cbProfession.SelectedIndex = -1;
+        }
+
+        private void LoadRaces ()
+        {
+            //Bind to the standard races
+            _cbRace.DataSource = StandardRaces.Races;
+
+            //Don't select anything by default
+            _cbRace.SelectedIndex = -1;
+        }
+
+        private void LoadCharacter ( Character character )
+        {
+            _txtName.Text = character.Name;
+            SelectProfession(character.Profession);
+            SelectRace(character.Race);
+            _txtBiography.Text = character.Biography;
+
+            _txtStrength.Value = character.Strength;
+            _txtIntelligence.Value = character.Intelligence;
+            _txtAgility.Value = character.Agility;
+            _txtConstitution.Value = character.Constitution;
+            _txtCharisma.Value = character.Charisma;
+        }
+
+        private Character SaveCharacter ( )
+        {
+            var character = new Character();
+            character.Name = _txtName.Text;
+            character.Profession = _cbProfession.SelectedItem as Profession;
+            character.Race = _cbRace.SelectedItem as Race;
+            character.Biography = _txtBiography.Text;
+
+            character.Strength = (int)_txtStrength.Value;
+            character.Intelligence = (int)_txtIntelligence.Value;
+            character.Agility = (int)_txtAgility.Value;
+            character.Constitution = (int)_txtConstitution.Value;
+            character.Charisma = (int)_txtCharisma.Value;
+
+            return character;
         }
 
         private void SelectProfession ( Profession desiredItem )
         {
-            foreach (var item in _comboProfession.Items)
+            foreach (var item in _cbProfession.Items)
             {
                 if ((item as Profession).Name == desiredItem.Name)
                 {
-                    _comboProfession.SelectedItem = item;
+                    _cbProfession.SelectedItem = item;
                     return;
                 };
             };
@@ -66,67 +131,18 @@ namespace CharacterCreator.Winforms
 
         private void SelectRace ( Race desiredItem )
         {
-            foreach (var item in _comboRace.Items)
+            foreach (var item in _cbRace.Items)
             {
                 if ((item as Race).Name == desiredItem.Name)
                 {
-                    _comboRace.SelectedItem = item;
+                    _cbRace.SelectedItem = item;
                     return;
                 };
             };
         }
-        private void OnCancel ( object sender, EventArgs e )
-        {
-            Close();
-        }
+        #endregion
 
-        private void OnSave ( object sender, EventArgs e )
-        {
-            if (!ValidateChildren())
-            {
-                DialogResult = DialogResult.None;
-                return;
-            };
-
-            var button = sender as Button;
-            if (button == null)
-                return;
-
-            var character = new Character();
-            character.Name = _txtName.Text;
-            character.Profession = _comboProfession.SelectedText;
-            character.Race = _comboRace.SelectedText;
-            character.Strength = ReadAsInt32(_numUpDownStr);
-            character.Intelligence = ReadAsInt32(_numUpDownInt);
-            character.Agility = ReadAsInt32(_numUpDownAgi);
-            character.Constitution = ReadAsInt32(_numUpDownCon);
-            character.Charisma = ReadAsInt32(_numUpDownCha);
-            character.Description = _txtDescription.Text;
-
-            var descriptionLength = character.MaximumDescriptionLength;
-
-            var validationResults = new ObjectValidator().TryValidateFullObject(character);
-            if (validationResults.Count() > 0)
-            {
-                //TODO: Fix this later using String.Join
-                var builder = new System.Text.StringBuilder();
-                foreach (var result in validationResults)
-                {
-                    builder.AppendLine(result.ErrorMessage);
-                };
-
-                MessageBox.Show(this, builder.ToString(), "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                DialogResult = DialogResult.None;
-                return;
-            };
-
-            Character = character;
-            Close();
-        }
-
-
-
-
+        #region ErrorProvider
         private void OnValidateName ( object sender, CancelEventArgs e )
         {
             var control = sender as TextBox;
@@ -134,7 +150,7 @@ namespace CharacterCreator.Winforms
             if (String.IsNullOrEmpty(control.Text))
             {
                 _errors.SetError(control, "Name is required");
-                e.Cancel = true; 
+                e.Cancel = true;
             } else
             {
                 _errors.SetError(control, "");
@@ -169,17 +185,6 @@ namespace CharacterCreator.Winforms
             };
         }
 
-        private void OnValidateAttribute ( object sender, CancelEventArgs e )
-        {
-
-        }
-
-        private void CreateNewCharacter_Load ( object sender, EventArgs e )
-        {
-
-        }
-
-
         private void OnValidateStr ( object sender, CancelEventArgs e )
         {
             var control = sender as NumericUpDown;
@@ -210,11 +215,6 @@ namespace CharacterCreator.Winforms
             {
                 _errors.SetError(control, "");
             };
-        }
-
-        private void _numUpDownInt_ValueChanged ( object sender, EventArgs e )
-        {
-
         }
 
         private int ReadAsInt32 ( Control control )
@@ -249,7 +249,7 @@ namespace CharacterCreator.Winforms
 
             var value = ReadAsInt32(control);
 
-            if (value <= 0 )
+            if (value <= 0)
             {
                 _errors.SetError(control, "Values must be between 1 and 100");
                 e.Cancel = true;
@@ -275,14 +275,6 @@ namespace CharacterCreator.Winforms
             };
         }
 
-        private void _numUpDownCha_ValueChanged ( object sender, EventArgs e )
-        {
-
-        }
-
-        private void _numUpDownAgi_ValueChanged ( object sender, EventArgs e )
-        {
-
-        }
+        #endregion
     }
 }
