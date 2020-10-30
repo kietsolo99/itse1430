@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CharacterCreator.Memory
 {
-    class MemoryCharacterRoster : CharacterRoster
+    public class MemoryCharacterRoster : CharacterRoster
     {
         protected override Character AddCore ( Character character )
         {
