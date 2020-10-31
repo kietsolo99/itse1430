@@ -135,9 +135,9 @@
             this._comboProfession.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._comboProfession.FormattingEnabled = true;
             this._comboProfession.Items.AddRange(new object[] {
-            "Fighter ",
-            "Hunter ",
-            "Priest ",
+            "Fighter",
+            "Hunter",
+            "Priest",
             "Rogue",
             "Wizard"});
             this._comboProfession.Location = new System.Drawing.Point(85, 65);

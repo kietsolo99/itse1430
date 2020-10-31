@@ -13,7 +13,7 @@ namespace CharacterCreator
             var items = new[] {
                 new Character() {
                     Name = "Katarina",
-                    Profession = "Rouge",
+                    Profession = "Rogue",
                     Race = "Human",
                     Description = "Greatest Assasin",
                     Strength = 60,
