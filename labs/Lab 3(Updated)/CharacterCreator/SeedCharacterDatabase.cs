@@ -25,8 +25,8 @@ namespace CharacterCreator
 
                 new Character() {
                     Name = "Ganda",
-                    Profession = "Elf",
-                    Race = "Wizard",
+                    Profession = "Wizard",
+                    Race = "Elf",
                     Description = "White Wizard",
                     Strength = 50,
                     Intelligence = 85,
@@ -37,8 +37,8 @@ namespace CharacterCreator
 
                 new Character() {
                     Name = "Saurin",
-                    Profession = "Elf",
-                    Race = "Wizard",
+                    Profession = "Hunter",
+                    Race = "Dwarf",
                     Description = "Dark Lord",
                     Strength = 70,
                     Intelligence = 90,

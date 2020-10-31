@@ -39,8 +39,8 @@ namespace CharacterCreator.Winforms
             {
                 _txtName.Text = Character.Name;
                 _txtDescription.Text = Character.Description;
-                _comboProfession.SelectedText = Character.Profession;
-                _comboRace.SelectedText = Character.Race;
+                _comboProfession.Text = Character.Profession;
+                _comboRace.Text = Character.Race;
                 _numUpDownStr.Text = Character.Strength.ToString();
                 _numUpDownInt.Text = Character.Intelligence.ToString();
                 _numUpDownAgi.Text = Character.Agility.ToString();
