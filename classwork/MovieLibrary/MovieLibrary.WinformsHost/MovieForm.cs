@@ -113,7 +113,7 @@ namespace MovieLibrary.WinformsHost
 
             //Using a constant
             //  1. Type name, not instance
-            var nameLength = Movie.MaximumNameLength; //50
+            //var nameLength = Movie.MaximumNameLength; //50
             //var nameLength1 = 50;
 
             var descriptionLength = movie.MaximumDescriptionLength;
@@ -122,7 +122,8 @@ namespace MovieLibrary.WinformsHost
             //movie.Age = 10;
 
             //TODO: Fix type validate
-            var validationResults = new ObjectValidator().TryValidateFullObject(movie);
+            //var validationResults = new ObjectValidator().TryValidateFullObject(movie);
+            var validationResults = ObjectValidator.TryValidateFullObject(movie);
             if (validationResults.Count() > 0)
             {
                 //TODO: Fix this later using String.Join
@@ -267,7 +268,7 @@ namespace MovieLibrary.WinformsHost
             //   4. null reference types
 
             //int x = null;
-            string s = null;
+            //string s = null;
         }
     }
 }

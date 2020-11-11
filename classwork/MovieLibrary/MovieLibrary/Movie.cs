@@ -20,6 +20,14 @@ namespace MovieLibrary
 
     // doctags
 
+    // Static vs instance members
+    //   Instance members are tied to the instance they are called on
+    //      Fields - data in the instance       (instance._id, instance._name)
+    //      Methods - requires an instance to execute (instance.method()) (instanc.eToString())
+    //   Static members are global to all instances
+    //      Fields - equivalent to global variable  
+    //      Method - equivalent to a global function, does not have instance access, does not have a this parameter  (Int32.TryParse)
+
     /// <summary>Represents a movie.</summary>
     /// <remarks>
     /// A paragraph of information.
@@ -154,19 +162,19 @@ namespace MovieLibrary
         /// <returns>The error message, if any.</returns>
         //public string Validate ( /*Movie this */ )
         //{
-        //this is reference to current instance
-        //rarely needed
-        //var name = this.Name;
+        //    //this is reference to current instance
+        //    //rarely needed
+        //    //var name = this.Name;
 
-        //Only 2 cases where `this` is needed
-        // 1. scoping issue -> fix the issue
-        //      fields are _id
-        //      locals are id
-        //    ex:
-        //      var Name = "";
-        //      Name = Name;  //WRONG
-        //      this.Name = Name; //CORRECT
-        // 2. passing the entire object to another method (only really valid case)
+        //    //Only 2 cases where `this` is needed
+        //    // 1. scoping issue -> fix the issue
+        //    //      fields are _id
+        //    //      locals are id
+        //    //    ex:
+        //    //      var Name = "";
+        //    //      Name = Name;  //WRONG
+        //    //      this.Name = Name; //CORRECT
+        //    // 2. passing the entire object to another method (only really valid case)
 
         //    //Name is required
         //    if (String.IsNullOrEmpty(Name)) //this.Name
@@ -183,7 +191,7 @@ namespace MovieLibrary
         //    return null;
         //}
 
-        public override string ToString ()
+        public override string ToString ( /* this */ )  //instance.ToString()
         {
             return Name;
         }
@@ -204,11 +212,10 @@ namespace MovieLibrary
             //Release Year must be >= 1900
             if (ReleaseYear < 1900)
                 yield return new ValidationResult("Release Year must be at least 1900", new[] { nameof(ReleaseYear) });
-            
+
             //return null;
         }
     }
-
 
     // Accessibility - the visibility of an identifier to other code, compile time only, determines who can see what at compilation
     //   public - everyone 

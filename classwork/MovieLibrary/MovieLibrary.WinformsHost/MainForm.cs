@@ -59,8 +59,10 @@ namespace MovieLibrary.WinformsHost
                 //Seed database if empty
                 if (MessageBox.Show(this, "No movies found. Do you want to add some example movies?", "Database Empty", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var seed = new SeedMovieDatabase();
-                    seed.Seed(_movies);
+                    //var seed = new SeedMovieDatabase();
+                    //seed.Seed(_movies);                    
+                    _movies.Seed();
+                    //SeedMovieDatabase.Seed(_movies);  //Rewritten to this
 
                     RefreshUI();
                 };
@@ -80,17 +82,23 @@ namespace MovieLibrary.WinformsHost
         //  Instantiate ::=   new T[Ei]
         //  Index : 0 to Size - 1
         //private Movie[] _movies = new Movie[100];  //0..99
-        private IMovieDatabase _movies = new MemoryMovieDatabase();
+        private IMovieDatabase _movies = new Sql.SqlMovieDatabase(_connectionString);
+
+        //Normally don't put this in code - put in a configuration file
+        private const string _connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=MovieDb;Integrated Security=True;";
+
+        //private IMovieDatabase _movies = new IO.FileMovieDatabase("movies.csv");
         //private Movie[] _emptyMovies = new Movie[0];   // empty arrays and nulls to be equivalent so always use empty array instead of null
 
         private void AddMovie ( Movie movie )
         {
-            var newMovie = _movies.Add(movie, out var message);
-            if (newMovie == null)
-            {
-                MessageBox.Show(this, message, "Add Failed", MessageBoxButtons.OK);
-                return;
-            };
+            _movies.Add(movie);
+            //var newMovie = _movies.Add(movie, out var message);
+            //if (newMovie == null)
+            //{
+            //    MessageBox.Show(this, message, "Add Failed", MessageBoxButtons.OK);
+            //    return;
+            //};
 
             RefreshUI();
 
@@ -117,6 +125,7 @@ namespace MovieLibrary.WinformsHost
         private void DeleteMovie ( int id )
         {
             _movies.Delete(id);
+            RefreshUI();
             //for (var index = 0; index < _movies.Length; ++index)
             //{
             //    // Array element access ::=  V[int]
@@ -131,12 +140,14 @@ namespace MovieLibrary.WinformsHost
 
         private void EditMovie ( int id, Movie movie )
         {
-            var error = _movies.Update(id, movie);
-            if (String.IsNullOrEmpty(error))
-            {
-                RefreshUI();
-                return;
-            };
+            _movies.Update(id, movie);
+            RefreshUI();
+            //var error = _movies.Update(id, movie);
+            //if (String.IsNullOrEmpty(error))
+            //{
+            //    RefreshUI();
+            //    return;
+            //};
 
             //for (var index = 0; index < _movies.Length; ++index)
             //{
@@ -149,7 +160,7 @@ namespace MovieLibrary.WinformsHost
             //    };
             //};
 
-            MessageBox.Show(this, error, "Edit Movie", MessageBoxButtons.OK);
+            //MessageBox.Show(this, error, "Edit Movie", MessageBoxButtons.OK);
         }
 
         private Movie GetSelectedMovie ()
@@ -159,7 +170,17 @@ namespace MovieLibrary.WinformsHost
 
         private int RefreshUI ()
         {
-            var items = _movies.GetAll().ToArray();
+            //.ToArray -> extension method
+            //   Allows us to call a method like an instance method on a type that does not actually implement it
+            // Adding functionality to type
+            //   1. Open type and add new instance method - only works if you own the type
+            //   2. Inherit from type - if base type allows inheritance and you are OK using the derived type
+            //   3. Extension method - works with any type
+            System.Collections.Generic.IEnumerable<Movie> movies = _movies.GetAll();
+
+            // Calling an extension method
+            //   1. Just like an instance method
+            var items = movies.ToArray();
 
             _lstMovies.DataSource  = items;
             //_lstMovies.DataSource = null;
@@ -174,15 +195,42 @@ namespace MovieLibrary.WinformsHost
         {
             var form = new MovieForm();
 
-            // ShowDialog - modal ::= user must interact with child form, cannot access parent
-            // Show - modeless ::= multiple window open and accessible at same time
-            var result = form.ShowDialog(this);  //Blocks until form is dismissed
-            if (result == DialogResult.Cancel)
-                return;
+            do
+            {
+                // ShowDialog - modal ::= user must interact with child form, cannot access parent
+                // Show - modeless ::= multiple window open and accessible at same time
+                var result = form.ShowDialog(this);  //Blocks until form is dismissed
+                if (result == DialogResult.Cancel)
+                    return;
 
-            //Save movie            
-            //AddMovie(form.Movie);            
-            AddMovie(null);
+                //Handle errors
+                //  try-catch ::= try-block catch-statement ;
+                //  try-block ::= try S
+                //  catch-statement ::= catch-conditional-block* [catch-block]
+                //  catch-block ::= catch S
+                //  catch-conditional-block ::= catch (T id) S
+
+                //Save movie            
+                try
+                {
+                    //Try to do this
+                    AddMovie(form.Movie);
+                    //AddMovie(null);
+                    return;
+                } catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(this, ex.Message, "Invalid Operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } catch (ArgumentException ex)
+                {
+                    MessageBox.Show(this, ex.Message, "Bad Argument", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //} catch 
+                } catch (Exception ex) // Equivalent to catch
+                {
+                    //Handle errors
+                    MessageBox.Show(this, ex.Message, "Add Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
+                };
+            } while (true);
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
@@ -198,8 +246,13 @@ namespace MovieLibrary.WinformsHost
                 case DialogResult.No: return;
             };
 
-            DeleteMovie(movie.Id);
-            RefreshUI();
+            try
+            {
+                DeleteMovie(movie.Id);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Delete Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
         }
 
         private void OnMovieEdit ( object sender, EventArgs e )
@@ -220,7 +273,22 @@ namespace MovieLibrary.WinformsHost
             if (result == DialogResult.Cancel)
                 return;
 
-            EditMovie(movie.Id, form.Movie);
+            try
+            {
+                EditMovie(movie.Id, form.Movie);
+            } catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(this, ex.Message, "Invalid Operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (ArgumentException ex)
+            {
+                MessageBox.Show(this, ex.Message, "Bad Argument", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Edit Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //Rethrow exception
+                throw;
+            };
         }
     }
 }
