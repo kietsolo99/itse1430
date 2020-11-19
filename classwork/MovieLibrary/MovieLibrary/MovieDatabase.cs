@@ -186,16 +186,20 @@ namespace MovieLibrary
         /// <remarks>
         /// The default implementation enumerates all the movies looking for a match.
         /// </remarks>
-        protected virtual Movie GetByName ( string name )
-        {
-            foreach (var movie in GetAll())
-            {
-                if (String.Compare(movie.Name, name, true) == 0)
-                    return movie;
-            };
+        // Expression body method => E;
+        protected virtual Movie GetByName ( string name ) => GetAll().FirstOrDefault(x => String.Compare(x.Name, name, true) == 0);
 
-            return null;
-        }
+        //protected virtual Movie GetByName ( string name )
+        //{
+        //    return GetAll().FirstOrDefault(x => String.Compare(x.Name, name, true) == 0);
+        //    //foreach (var movie in GetAll())
+        //    //{
+        //    //    if (String.Compare(movie.Name, name, true) == 0)
+        //    //        return movie;
+        //    //};
+
+        //    //return null;
+        //}
 
         protected abstract IEnumerable<Movie> GetAllCore ();
 
@@ -242,4 +246,10 @@ namespace MovieLibrary
     //    parameters => { statements* }
     //    parameter types are inferred, cannot use ref or out
     //    If you need more than 1 parameter or no parameters use empty parens
+    // 
+    // Expression bodies (limited to methods, constructors, operators, properties)
+    //    method => E;
+    //    T property { get => E; set => S; }
+    //    T prooperty => E;
+    //    Replaces a method body that has a single return statement (compiler rewrites to regular method)   
 }
