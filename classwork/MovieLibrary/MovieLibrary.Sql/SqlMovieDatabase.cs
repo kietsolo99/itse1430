@@ -203,14 +203,42 @@ namespace MovieLibrary.Sql
         protected override Movie GetByName ( string name )
         {
             var movies = GetAllCore();
-            foreach (var movie in movies)
-            {
-                if (String.Compare(movie.Name, name, true) == 0)
-                    return movie;
-            };
+            //foreach (var movie in movies)
+            //{
+            //    if (String.Compare(movie.Name, name, true) == 0)
+            //        return movie;
+            //};
+            //return null;
 
-            return null;
+            //Delegate
+            //PredicateDelegate predicate = MovieHasName;
+
+            //Use an anonymous method
+            //  parameters => expression
+
+            //1. Using delegate
+            //Func<Movie, bool> predicate = movie => MovieHasName(movie, name);
+            //IEnumerable<Movie> filteredMovies = movies.Where(predicate);
+
+            //2. Use directly
+            //var filteedMovies = movies.Where(movie => MovieHasName(movie, name));
+
+            //3. Use without method
+            // Parameters on left provided by Where method call
+            // Expression on right returned by function
+            // () => E
+            // (p1, p2) => E
+            //return movies.Where(movie => String.Compare(movie.Name, name, true) == 0)
+            //             .FirstOrDefault();
+
+            return movies.FirstOrDefault(movie => String.Compare(movie.Name, name, true) == 0);
         }
+
+        //delegate bool PredicateDelegate ( Movie movie, string name );
+        //private bool MovieHasName ( Movie movie, string name )
+        //{
+        //    return String.Compare(movie.Name, name, true) == 0;
+        //}
 
         //public string Update ( int id, Movie movie )
         protected override void UpdateCore ( int id, Movie movie )
