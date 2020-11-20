@@ -3,6 +3,9 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Nile.Stores.Sql
 {
@@ -12,43 +15,119 @@ namespace Nile.Stores.Sql
         /// <summary>Adds a product.</summary>
         /// <param name="product">The product to add.</param>
         /// <returns>The added product.</returns>
+
+        public SqlProductDatabase ( string connectionString )
+        {
+            _connectionString = connectionString;
+        }
+
+        private readonly string _connectionString;
         protected override Product AddCore ( Product product )
         {
-            var newProduct = CopyProduct(product);
-            _products.Add(newProduct);
+            using (var connection = OpenConnection())
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = "AddProduct";
+                command.CommandType = CommandType.StoredProcedure;
 
-            if (newProduct.Id <= 0)
-                newProduct.Id = _nextId++;
-            else if (newProduct.Id >= _nextId)
-                _nextId = newProduct.Id + 1;
+                var parmName = new SqlParameter("@name", product.Name);
+                command.Parameters.Add(parmName);
 
-            return CopyProduct(newProduct);
+                var parmDescription = command.CreateParameter();
+                parmDescription.ParameterName = "@description";
+                parmDescription.Value = product.Description;
+                parmDescription.SqlDbType = SqlDbType.NVarChar;
+                command.Parameters.Add(parmDescription);
+
+                command.Parameters.AddWithValue("@Price", product.Price);
+                command.Parameters.AddWithValue("@isDiscontinued", product.IsDiscontinued);
+
+                object result = command.ExecuteScalar();
+                var id = Convert.ToInt32(result);
+
+                product.Id = id;
+                return product;
+            };
         }
 
         /// <summary>Get a specific product.</summary>
         /// <returns>The product, if it exists.</returns>
         protected override Product GetCore ( int id )
         {
-            var product = FindProduct(id);
+            using (var connection = OpenConnection())
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = "GetProduct";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
 
-            return (product != null) ? CopyProduct(product) : null;
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var productId = reader.GetInt32(0);
+                        if (productId == id)
+                        {
+                            return new Product() {
+                                Id = productId,
+                                Name = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                Price = reader.GetFieldValue<decimal>(3),
+                                IsDiscontinued = reader.GetFieldValue<bool>(6)
+                            };
+                        };
+                    };
+                };
+            };
+
+            return null;
         }
 
         /// <summary>Gets all products.</summary>
         /// <returns>The products.</returns>
         protected override IEnumerable<Product> GetAllCore ()
         {
-            foreach (var product in _products)
-                yield return CopyProduct(product);
-        }
+            var ds = new DataSet();
 
+            using (var connection = OpenConnection())
+            {
+                var command = new SqlCommand("GetProducts", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                var da = new SqlDataAdapter() {
+                    SelectCommand = command
+                };
+                da.Fill(ds);
+            };
+
+            var table = ds.Tables.Count > 0 ? ds.Tables[0] : null;
+            if (table != null)
+            {
+                foreach (var row in table.Rows.OfType<DataRow>())
+                {
+                    yield return new Product() {
+                        Id = Convert.ToInt32(row[0]),
+                        Name = row["name"].ToString(),
+
+                        Description = row.IsNull("Description") ? null : row.Field<string>("description"),
+                        Price = row.Field<decimal>("Price"),
+                        IsDiscontinued = row.Field<bool>("IsDiscontinued"),
+                    };
+                };
+            };
+        }
         /// <summary>Removes the product.</summary>
         /// <param name="product">The product to remove.</param>
         protected override void RemoveCore ( int id )
         {
-            var product = FindProduct(id);
-            if (product != null)
-                _products.Remove(product);
+            using (var connection = OpenConnection())
+            {
+                var command = connection.CreateCommand();
+
+                command.CommandText = "DeleteProduct";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            };
         }
 
         /// <summary>Updates a product.</summary>
@@ -92,5 +171,15 @@ namespace Nile.Stores.Sql
 
         private List<Product> _products = new List<Product>();
         private int _nextId = 1;
+
+        private SqlConnection OpenConnection ()
+        {
+            //Connect to database using connection string
+            var conn = new SqlConnection(_connectionString);
+
+            //SqlException if something goes wrong
+            conn.Open();
+            return conn;
+        }
     }
 }
