@@ -91,7 +91,7 @@ namespace Nile.Stores.Sql
 
             using (var connection = OpenConnection())
             {
-                var command = new SqlCommand("GetProducts", connection);
+                var command = new SqlCommand("GetAllProducts", connection);
                 command.CommandType = CommandType.StoredProcedure;
                 var da = new SqlDataAdapter() {
                     SelectCommand = command
@@ -123,7 +123,7 @@ namespace Nile.Stores.Sql
             {
                 var command = connection.CreateCommand();
 
-                command.CommandText = "DeleteProduct";
+                command.CommandText = "RemoveProduct";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();
