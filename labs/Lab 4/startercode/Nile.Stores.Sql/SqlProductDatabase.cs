@@ -3,95 +3,94 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Nile.Stores.Sql
 {
     /// <summary>Base class for product database.</summary>
-    public abstract class SqlProductDatabase : IProductDatabase
-    {        
+    public class SqlProductDatabase : ProductDatabase
+    {
         /// <summary>Adds a product.</summary>
         /// <param name="product">The product to add.</param>
         /// <returns>The added product.</returns>
-        public Product Add ( Product product )
+        protected override Product AddCore ( Product product )
         {
-            //DONE: Check arguments
+            var newProduct = CopyProduct(product);
+            _products.Add(newProduct);
 
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
+            if (newProduct.Id <= 0)
+                newProduct.Id = _nextId++;
+            else if (newProduct.Id >= _nextId)
+                _nextId = newProduct.Id + 1;
 
-            //DONE: Validate product
-
-
-            var existing = GetByName(product.Name);
-            if (existing != null)
-                throw new InvalidOperationException("Product must be unique");
-
-
-            //Emulate database by storing copy
-            return AddCore(product);
+            return CopyProduct(newProduct);
         }
 
         /// <summary>Get a specific product.</summary>
         /// <returns>The product, if it exists.</returns>
-        public Product Get ( int id )
+        protected override Product GetCore ( int id )
         {
-            //DONE: Check arguments
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
+            var product = FindProduct(id);
 
-            return GetCore(id);
+            return (product != null) ? CopyProduct(product) : null;
         }
-        
+
         /// <summary>Gets all products.</summary>
         /// <returns>The products.</returns>
-        public IEnumerable<Product> GetAll ()
+        protected override IEnumerable<Product> GetAllCore ()
         {
-            return GetAllCore();
+            foreach (var product in _products)
+                yield return CopyProduct(product);
         }
-        
-        /// <summary>Removes the product.</summary>
-        /// <param name="id">The product to remove.</param>
-        public void Remove ( int id )
-        {
-            //DONE: Check arguments
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            RemoveCore(id);
+        /// <summary>Removes the product.</summary>
+        /// <param name="product">The product to remove.</param>
+        protected override void RemoveCore ( int id )
+        {
+            var product = FindProduct(id);
+            if (product != null)
+                _products.Remove(product);
         }
-        
+
         /// <summary>Updates a product.</summary>
         /// <param name="product">The product to update.</param>
         /// <returns>The updated product.</returns>
-        public Product Update ( Product product )
+        protected override Product UpdateCore ( Product existing, Product product )
         {
-            //DONE: Check arguments
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
+            //Replace 
+            existing = FindProduct(product.Id);
+            _products.Remove(existing);
 
-            //DONE: Validate product
+            var newProduct = CopyProduct(product);
+            _products.Add(newProduct);
 
-            //Get existing product
-            var existing = GetCore(product.Id);
-
-            return UpdateCore(existing, product);
+            return CopyProduct(newProduct);
         }
 
-        #region Protected Members
+        private Product CopyProduct ( Product product )
+        {
+            var newProduct = new Product();
+            newProduct.Id = product.Id;
+            newProduct.Name = product.Name;
+            newProduct.Description = product.Description;
+            newProduct.Price = product.Price;
+            newProduct.IsDiscontinued = product.IsDiscontinued;
 
-        protected abstract Product GetCore( int id );
+            return newProduct;
+        }
 
-        protected abstract IEnumerable<Product> GetAllCore();
+        //Find a product by ID
+        private Product FindProduct ( int id )
+        {
+            foreach (var product in _products)
+            {
+                if (product.Id == id)
+                    return product;
+            };
 
-        protected abstract void RemoveCore( int id );
+            return null;
+        }
 
-        protected abstract Product UpdateCore( Product existing, Product newItem );
-
-        protected abstract Product AddCore( Product product );
-
-        protected virtual Product GetByName ( string name ) => GetAll().FirstOrDefault(x => String.Compare(x.Name, name, true) == 0);
-
-        #endregion
+        private List<Product> _products = new List<Product>();
+        private int _nextId = 1;
     }
 }

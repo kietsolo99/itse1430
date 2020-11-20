@@ -72,9 +72,11 @@ namespace Nile.Windows
             UpdateList();
         }
 
-        private IProductDatabase _product = new Nile.Stores.Sql.SqlProductDatabase(_connectionString);
+        private IProductDatabase _product = new Sql.SqlProductDatabase(_connectionString);
 
-        private const string _connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=NileDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;";
+        private const string _connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=NileDatabase;Integrated Security=True;
+                                                 Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
+                                                 ApplicationIntent=ReadWrite;MultiSubnetFailover=False;";
 
 
         private void AddProduct ( Product product )
