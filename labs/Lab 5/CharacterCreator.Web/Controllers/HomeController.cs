@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ITSE 1430
+ * Character Roster
+ * Kiet Vo
+ * Lab 5
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,12 +19,6 @@ namespace CharacterCreator.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
 
         public ActionResult Contact()
         {

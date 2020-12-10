@@ -11,7 +11,7 @@ namespace CharacterCreator
 {
     public interface ICharacterRoster
     {
-        Character Add ( Character character, out string error );
+        Character Add ( Character character);
 
         void Delete ( int id );
 
@@ -19,6 +19,7 @@ namespace CharacterCreator
 
         IEnumerable<Character> GetAll ();
 
-        string Update ( int id, Character character );
+        void Update ( int id, Character character );
+
     }
 }

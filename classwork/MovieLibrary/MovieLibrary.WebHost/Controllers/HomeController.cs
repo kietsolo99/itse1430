@@ -17,23 +17,16 @@ namespace MovieLibrary.WebHost.Controllers
         // Actions
         //  1. Public methods
         //  2. Must return ActionResult or a derived type
-        public ActionResult Index()
+        public ActionResult Index ()
         {
-            return View();
+            return View(); //return View("Index");
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        public ActionResult About () => View();
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View(); //return View("Contact");
-        }
+        //    return View();  //return View("About");
+        //}
     }
 }

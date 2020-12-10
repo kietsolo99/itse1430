@@ -105,7 +105,7 @@ namespace CharacterCreator.Winforms
 
             var descriptionLength = character.MaximumDescriptionLength;
 
-            var validationResults = new ObjectValidator().TryValidateFullObject(character);
+            var validationResults = ObjectValidator.TryValidateFullObject(character);
             if (validationResults.Count() > 0)
             {
                 //TODO: Fix this later using String.Join

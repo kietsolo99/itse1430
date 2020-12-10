@@ -55,8 +55,7 @@ namespace CharacterCreator.Winforms
                 //Seed database if empty
                 if (MessageBox.Show(this, "No character found. Do you want to add some example character?", "Database Empty", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var seed = new SeedCharacterDatabase();
-                    seed.Seed(_characters);
+                    _characters.Seed();
 
                     RefreshUI();
                 };
@@ -65,12 +64,7 @@ namespace CharacterCreator.Winforms
 
         private void AddCharacter ( Character character )
         {
-            var newCharacter = _characters.Add(character, out var message);
-            if (newCharacter == null)
-            {
-                MessageBox.Show(this, message, "Add Failed", MessageBoxButtons.OK);
-                return;
-            };
+            _characters.Add(character);
 
             RefreshUI();
         }
@@ -150,14 +144,8 @@ namespace CharacterCreator.Winforms
 
         private void EditCharacter ( int id, Character character )
         {
-            var error = _characters.Update(id, character);
-            if (String.IsNullOrEmpty(error))
-            {
-                RefreshUI();
-                return;
-            };
-
-            MessageBox.Show(this, error, "Edit Character", MessageBoxButtons.OK);
+            _characters.Update(id, character);
+            RefreshUI();
         }
     }
 }

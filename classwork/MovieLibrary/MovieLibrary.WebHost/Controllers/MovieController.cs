@@ -159,5 +159,8 @@ namespace MovieLibrary.WebHost.Controllers
         }
 
         private readonly IMovieDatabase _database;
+
+        //private readonly static IMovieDatabase _database2 = new MemoryMovieDatabase();
+
     }
 }

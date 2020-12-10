@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CharacterCreator
 {
-    public class SeedCharacterDatabase
+    public static class SeedCharacterDatabase
     {
-        public void Seed ( ICharacterRoster database )
+        public static void Seed ( this ICharacterRoster source )
         {
             var items = new[] {
                 new Character() {
@@ -49,7 +49,7 @@ namespace CharacterCreator
             };
 
             foreach (var item in items)
-                database.Add(item, out var error);
+                source.Add(item);
 
         }
     }

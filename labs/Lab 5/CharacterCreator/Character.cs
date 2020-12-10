@@ -2,7 +2,7 @@
  * ITSE 1430
  * Character Roster
  * Kiet Vo
- * Lab 3
+ * Lab 5
  */
 using System;
 using System.Collections.Generic;
